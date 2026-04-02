@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require 'vendor/autoload.php';
     require_once 'conectarcadastro.php';
 
@@ -11,27 +12,27 @@
     // Valida os dados recebidos
     if (empty($usuario) || empty($email) || empty($senha)) {
      $_SESSION['erro'] = "Preencha todos os campos.";
-        header("Location: http://localhost/cadastro.html");
+        header("Location: http://localhost/cadastro.php"); //modificar para a página de cadastro
         exit();
     }
 
     // Valida o formato do e-mail
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
      $_SESSION['erro'] = "Insira um e-mail válido.";
-        header("Location: http://localhost/cadastro.html");
+        header("Location: http://localhost/cadastro.php"); //modificar para a página de cadastro
         exit();
     }
     // Valida a força da senha
     if (!preg_match('/^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W]).{8,}$/', $senha)) {
     $_SESSION['erro'] = "A senha deve ter no mínimo 8 caracteres, uma maiúscula, um número e um caractere especial.";
-    header("Location: http://localhost/cadastro.php");
+    header("Location: http://localhost/cadastro.php"); //modificar para a página de cadastro
     exit();
     }
 
     // Valida se as senhas coincidem
     if ($senha !== $confirmar_senha) {
      $_SESSION['erro'] = "As senhas não coincidem.";
-        header("Location: http://localhost/cadastro.html");
+        header("Location: http://localhost/cadastro.php"); //modificar para a página de cadastro
         exit();
     }
     

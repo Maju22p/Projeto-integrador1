@@ -3,10 +3,10 @@ require __DIR__ . '/vendor/autoload.php';
 use Dotenv\Dotenv; 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
-require_once 'BancoCadastro.php';
+
 
 try {
-    $pdo = new PDO("mysql:host=" . $_ENV['DB_HOST'] . ";dbname=" . $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
+    $pdo = new PDO("mysql:host=" . $_ENV['DB_HOST'] . ";dbname=" . $_ENV['DB_NAME2'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Erro de conexão: " . $e->getMessage());

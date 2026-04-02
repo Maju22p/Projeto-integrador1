@@ -1,9 +1,18 @@
+<?php session_start(); ?>
 <html>
     <head>
         <title>Cadastro simples</title>
     </head>
     <body>
         <h1>Cadastro simples</h1>
+        <?php if (!empty($_SESSION['erro'])): ?>
+            <p style="color:red;"><?= $_SESSION['erro']; unset($_SESSION['erro']); ?></p>
+        <?php endif; ?>
+
+        <?php if (!empty($_SESSION['sucesso'])): ?>
+            <p style="color:green;"><?= $_SESSION['sucesso']; unset($_SESSION['sucesso']); ?></p>
+        <?php endif; ?>
+
          <form method="POST" action="http://localhost/envioCadastro.php">
             
             <label for="usuario">Usuário:</label>
