@@ -14,6 +14,7 @@
 | `login.php` | Formulário de login com exibição de mensagens |
 | `envioLogin.php` | Lógica de autenticação e criação de sessão |
 | `logout.php` | Encerramento da sessão e redirecionamento para login |
+| `home.php` | Pagina teste para mostrar que esta funcionando (deve ser substituida) |
 
 ### Pendente
 - [ ] Proteção de páginas internas (redirecionar para login se sessão não existir)
