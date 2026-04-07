@@ -7,6 +7,7 @@
 - Mensagens de erro via sessão (`$_SESSION['erro']`)
 - Criação de sessão do usuário após login bem sucedido (`$_SESSION['usuario_id']` e `$_SESSION['usuario_nome']`)
 - Logout com destruição completa da sessão via `session_destroy()`
+- Redirecionamento para pagina de cadastro e redefinição de senha
 
 ### Arquivos
 | Arquivo | Descrição |
