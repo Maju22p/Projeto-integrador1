@@ -5,13 +5,9 @@
 
     //$email = $_POST['email'];
     $user_id = 67; // Exemplo de ID de usuário, substitua pelo ID real do usuário
-    $email = 'rayica8235@flownue.com'; // Exemplo de email, substitua pelo email real do usuário
+    $email = $_POST['email']; // email do usuário para enviar o token
     
-    $token = criarToken($user_id, $email);
-    enviarEmail($email, $token);
+    $token = criarToken($user_id, $email); // Cria um token e salva no banco de dados
+    enviarEmail($email, $token); // Envia o token por email
 
-    //tirar vardump ao terminar
-    //var_dump($token);
-    //var_dump($expiracao);
-    //var_dump($hash);
 ?>
