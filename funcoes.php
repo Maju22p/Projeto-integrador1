@@ -14,13 +14,9 @@
         $hash = password_hash($token, PASSWORD_BCRYPT); // Hash do token para armazenamento seguro
 
         try {
-            $stmt = $conn->prepare("INSERT INTO tokens (user_id, email, token, expiracao) VALUES (:user_id, :email, :token, :expiracao)");
-            $stmt->bindParam(':user_id', $user_id);
-            $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':token', $hash);
-            $expiracaoformatada = date('Y-m-d H:i:s', $expiracao);
-            $stmt->bindParam(':expiracao', $expiracaoformatada);
-            $stmt->execute();
+            $conn->prepare("INSERT INTO tokens (user_id, email, token, expiracao) VALUES (:user_id, :email, :token, FROM_UNIXTIME(:expiracao))")
+                ->execute(['user_id' => $user_id, 'email' => $email, 'token' => $hash, 'expiracao' => $expiracao]); 
+
             return $token; // Retorna o token original para envio por email
         } catch(PDOException $e){
             echo "Erro ao salvar token: " . $e->getMessage();
