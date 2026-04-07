@@ -5,7 +5,7 @@ $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $host = $_ENV['DB_HOST']; 
-$dbname = $_ENV['DB_NAME2s'];
+$dbname = $_ENV['DB_NAME2'];
 $username = $_ENV['DB_USER']; // Variável de ambiente para o nome de usuário do banco de dados
 $password = $_ENV['DB_PASS']; // Variável de ambiente para a senha do banco de dados
 
