@@ -14,7 +14,6 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     $sql = "CREATE DATABASE IF NOT EXISTS $dbname";
     $conn->exec($sql); 
-    echo "Banco criado com sucesso";
     $conn->exec("USE $dbname");
     // Criação da tabela de tokens 
     $sql = "CREATE TABLE IF NOT EXISTS tokens (

@@ -3,6 +3,7 @@
     require_once 'conexao.php';
     
     use PHPMailer\PHPMailer\PHPMailer;
+    use SMTP\PHPMailer\SMTP;    
     use PHPMailer\PHPMailer\Exception as MailerException;
     
     $mail = new PHPMailer(true);
