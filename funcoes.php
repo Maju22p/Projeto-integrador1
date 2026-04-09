@@ -20,7 +20,7 @@
             // Remove tokens antigos ou usados
             $conn->prepare("DELETE FROM tokens WHERE usado = TRUE OR expiracao < DATE_SUB(NOW(), INTERVAL 5 HOUR)")
                 ->execute();
-                
+
             $conn->prepare("INSERT INTO tokens (user_id, email, token, expiracao) VALUES (:user_id, :email, :token, :expiracao)")
                 ->execute(['user_id' => $user_id, 'email' => $email, 'token' => $hash, 'expiracao' => $formatarexpiracao]); 
 
@@ -46,6 +46,7 @@
             $mail->setFrom($_ENV['SMTP_USER'], 'Redefinir Senha');
             $mail->addAddress($email); 
             $mail->isHTML(true);
+            // Conteúdo do email
             $mail->Subject = 'Redefinir sua senha';
             $mail->Body = "Clique no link para redefinir sua senha: <a href='$link'>Redefinir senha</a>";
             $mail->AltBody = "Clique no link para redefinir sua senha: $link";
