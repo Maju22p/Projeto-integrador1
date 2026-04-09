@@ -1,9 +1,10 @@
 <?php
     require 'vendor/autoload.php';
     require_once 'conexao.php';
+
     
     use PHPMailer\PHPMailer\PHPMailer;
-    use SMTP\PHPMailer\SMTP;    
+    use PHPMailer\PHPMailer\SMTP;    
     use PHPMailer\PHPMailer\Exception as MailerException;
     
     $mail = new PHPMailer(true);
@@ -12,11 +13,12 @@
         global $conn; 
         $token = bin2hex(random_bytes(32)); // Criação de um token 
         $expiracao = time() + 300; //  expiração do token (5 minutos)
+        $formatarexpiracao =gmdate('Y-m-d H:i:s', $expiracao); // Formata a data de expiração para o formato do banco de dados
         $hash = password_hash($token, PASSWORD_BCRYPT); // Hash do token para armazenamento seguro
 
         try {
-            $conn->prepare("INSERT INTO tokens (user_id, email, token, expiracao) VALUES (:user_id, :email, :token, FROM_UNIXTIME(:expiracao))")
-                ->execute(['user_id' => $user_id, 'email' => $email, 'token' => $hash, 'expiracao' => $expiracao]); 
+            $conn->prepare("INSERT INTO tokens (user_id, email, token, expiracao) VALUES (:user_id, :email, :token, :expiracao)")
+                ->execute(['user_id' => $user_id, 'email' => $email, 'token' => $hash, 'expiracao' => $formatarexpiracao]); 
 
             return $token; // Retorna o token original para envio por email
         } catch(PDOException $e){
@@ -25,7 +27,7 @@
         }
     }
 
-    function enviarEmail($email, $token){
+    function enviarEmail($email, $link){
         global $mail; // Acessa a instância global do PHPMailer
         try {
             $mail->isSMTP();
@@ -34,17 +36,24 @@
             $mail -> Username = $_ENV['SMTP_USER'];
             $mail -> Password = $_ENV['SMTP_PASS'];
             $mail -> Port = $_ENV['SMTP_PORT'];
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 
             // Configurações do email
             $mail->setFrom($_ENV['SMTP_USER'], 'Redefinir Senha');
-            $mail->addAddress($email);
+            $mail->addAddress($email); 
+            $mail->isHTML(true);
             $mail->Subject = 'Redefinir sua senha';
-            $mail->Body = "Use o seguinte token para redefinir sua senha: $token";
+            $mail->Body = "Clique no link para redefinir sua senha: <a href='$link'>Redefinir senha</a>";
+            $mail->AltBody = "Clique no link para redefinir sua senha: $link";
 
-            // Enviar o email
-            $mail->send();
+            if($mail->send()){
+                echo "Email enviado para $email";
+            } else {
+                echo "Erro ao enviar email: " . $mail->ErrorInfo;
+            }
             echo "Email enviado com sucesso para $email";
         } catch (MailerException $e) {
             echo "Erro ao enviar email: " . $e->getMessage();
         }
     }
+    ?>
