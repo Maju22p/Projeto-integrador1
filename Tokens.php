@@ -14,7 +14,7 @@
         exit;
     }
     
-    $token = criarToken($user['id'], $email); // Cria um token e salva no banco de dados
-    enviarEmail($email, $token); // Envia o token por email
-
+    $token = criarToken($user['id'], $email);
+    $link = "http://localhost/Verificar-token.php?token=$token"; // alterar para o domínio real depois
+    enviarEmail($email, $link);
 ?>

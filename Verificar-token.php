@@ -1,8 +1,6 @@
 <?php 
- 
+session_start();
 require_once 'conexao.php';
-
-
 
 if (!isset($_GET['token'])) {
     die("Token inválido!");
@@ -32,10 +30,12 @@ try {
     $stmt = $conn->prepare("UPDATE tokens SET usado = TRUE WHERE id = :id");
     $stmt->execute(['id' => $tokenValido['id']]);
 
-    header("Location: redefinir_senha.php?user_id=" . $tokenValido['user_id']);
+    $_SESSION['user_id'] = $tokenValido['user_id'];
+    header("Location: redefinir_senha.php");
     exit;
-
+    
 } catch (PDOException $e) {
     die("Erro: " . $e->getMessage());
 }
+
 ?> 
