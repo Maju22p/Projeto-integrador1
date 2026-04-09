@@ -17,6 +17,10 @@
         $hash = password_hash($token, PASSWORD_BCRYPT); // Hash do token para armazenamento seguro
 
         try {
+            // Remove tokens antigos ou usados
+            $conn->prepare("DELETE FROM tokens WHERE usado = TRUE OR expiracao < DATE_SUB(NOW(), INTERVAL 5 HOUR)")
+                ->execute();
+                
             $conn->prepare("INSERT INTO tokens (user_id, email, token, expiracao) VALUES (:user_id, :email, :token, :expiracao)")
                 ->execute(['user_id' => $user_id, 'email' => $email, 'token' => $hash, 'expiracao' => $formatarexpiracao]); 
 
